@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/MasterJavaWebServicesCourse.iml" filepath="$PROJECT_DIR$/.idea/MasterJavaWebServicesCourse.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpringIn5StepsProd/SpringIn5StepsProd/SpringIn5StepsProd.iml" filepath="$PROJECT_DIR$/SpringIn5StepsProd/SpringIn5StepsProd/SpringIn5StepsProd.iml" />
+    </modules>
+  </component>
+</project>
