@@ -267,3 +267,192 @@ Parameter 0 of constructor in com.example.SpringIn5StepsProd.BinarySearchImpl re
 
 
 
+## Instead of using constructor injection, use setter injection
+
+```
+@Component
+public class BinarySearchImpl {
+
+    @Autowired
+    private SortAlgorithm sortAlgorithm;
+
+    public int binarySearch(int[] numbers, int numberToSearchFor) {
+
+        int[] sortedNumbers = sortAlgorithm.sort(numbers);
+        System.out.println(sortAlgorithm);
+        return 3;
+    }
+
+    public BinarySearchImpl(SortAlgorithm sortAlgorithm) {
+        super();
+        this.sortAlgorithm = sortAlgorithm;
+    }
+}
+
+@Component
+public class BinarySearchImpl {
+
+    @Autowired
+    private SortAlgorithm sortAlgorithm;
+
+    public int binarySearch(int[] numbers, int numberToSearchFor) {
+
+        int[] sortedNumbers = sortAlgorithm.sort(numbers);
+        System.out.println(sortAlgorithm);
+        return 3;
+    }
+
+    public void setSortAlgorithm(SortAlgorithm sortAlgorithm) {
+        this.sortAlgorithm = sortAlgorithm;
+    }
+}
+```
+
+
+
+## Or no setter at all
+
+```
+@Component
+public class BinarySearchImpl {
+
+    @Autowired
+    private SortAlgorithm sortAlgorithm;
+
+    public int binarySearch(int[] numbers, int numberToSearchFor) {
+
+        int[] sortedNumbers = sortAlgorithm.sort(numbers);
+        System.out.println(sortAlgorithm);
+        return 3;
+    }
+}
+```
+
+
+
+Spring is very modular. It is not one big framework. its not like you have to use the entire framework or nothing at all.
+
+
+
+One of the important data access models is Spring JDBC which makes JDBC much more easier.
+
+Test is a cross cutting concern as it goes across multiple layers.
+
+
+
+Within a few years, Spring Boot has become the most popular framework to develop microservices.
+
+Makes it very easy to develop applications quickly using:
+
+- start up projects
+- actuator 
+- autoconfiguration
+
+
+
+Spring maintain its popularity because it maintains testable code
+
+Very easy to do tests eg. mockito
+
+No plumbing code. All exceptions are unchecked.
+
+Flexible architecture - very modular projects and modules for specific purposes
+
+Able to stay with the trend eg. Spring cloud and Spring boot
+
+
+
+Springboot is most popular framework for microservices
+
+
+
+## Introduction to Spring Boot in 10 steps
+
+Lots of small services
+
+Number 1 framework for microservices
+
+Quickly build production ready application
+
+Provides non-functional features
+
+```
+Goals
+Enable building production ready applications quickly
+Provide common non-functional features 
+- embedded servers
+- metrics
+- health checks
+- externalized configuration
+
+What Spring Boot is NOT!
+ZERO code generation
+Neither an application server nor a web server
+
+Features
+Quick Starter Projects with Auto Configuration
+ - Web
+ - JPA
+Embedded Servers - Tomcat, Jetty or Undertow
+Production-ready features
+ - metrics and health checks 
+ - externalized configuration
+ 
+ 
+http://localhost:8080/books => Few hardcoded books
+```
+
+[getting-started-in-5-steps/springboot-in-10-steps at master · in28minutes/getting-started-in-5-steps · GitHub](https://github.com/in28minutes/getting-started-in-5-steps/tree/master/springboot-in-10-steps)
+
+
+
+```java
+public class Book {
+    long id;
+    String name;
+    String author;
+
+    public Book(long id, String name, String author) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.author = author;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+    @Override
+    public String toString() {
+        return String.format("Book [id=%s, name=%s, author=%s]", id, name, author);
+    }
+}
+
+```
+
+
+
+```java
+@RestController
+public class BooksController {
+    @GetMapping("/books")
+    public List<Book> getAllBooks() {
+        return Arrays.asList(
+                new Book(1l, "Mastering Spring 5.2", "Ranga Karanam"));
+    }
+}
+```
+
+
+
+
+
+@SpringBootApplication indicates the Spring context file

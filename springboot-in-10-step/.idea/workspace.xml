@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3ed025d1-8459-48b8-a18d-d3a0c62eb4c9" name="Changes" comment="">
+    <list default="true" id="738d36cc-2491-4197-b1c1-0c68902ad780" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Notes on course.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Notes on course.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringIn5Steps/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringIn5Steps/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SpringIn5StepsProd/SpringIn5StepsProd/src/main/java/com/example/SpringIn5StepsProd/BinarySearchImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringIn5StepsProd/SpringIn5StepsProd/src/main/java/com/example/SpringIn5StepsProd/BinarySearchImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SpringIn5StepsProd/SpringIn5StepsProd/src/main/java/com/example/SpringIn5StepsProd/QuickSortAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringIn5StepsProd/SpringIn5StepsProd/src/main/java/com/example/SpringIn5StepsProd/QuickSortAlgorithm.java" afterDir="false" />
     </list>
@@ -15,10 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="22tVwFFXMB04yRyomPRBZEERWlW" />
+  <component name="ProjectId" id="22ul49QQtj1ytPInJ4Fc4UNbXqU" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,16 +24,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SpringIn5StepsProd" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/springboot-in-10-step" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3ed025d1-8459-48b8-a18d-d3a0c62eb4c9" name="Changes" comment="" />
-      <created>1640657107133</created>
+      <changelist id="738d36cc-2491-4197-b1c1-0c68902ad780" name="Changes" comment="" />
+      <created>1640695158132</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1640657107133</updated>
+      <updated>1640695158132</updated>
     </task>
     <servers />
   </component>

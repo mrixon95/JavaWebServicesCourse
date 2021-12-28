@@ -15,9 +15,4 @@ public class BinarySearchImpl {
         System.out.println(sortAlgorithm);
         return 3;
     }
-
-    public BinarySearchImpl(SortAlgorithm sortAlgorithm) {
-        super();
-        this.sortAlgorithm = sortAlgorithm;
-    }
 }
