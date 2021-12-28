@@ -127,3 +127,143 @@ Rest is an architectural style whereas SOAP is an XML format
 REST doesn't have a strict data exchange format
 
 Swagger is a popular RESTful web service
+
+
+
+
+
+
+
+### **Bean Configuration**
+
+Need to tell spring
+
+```
+// what are the different beans that Spring has to manage? A: @component
+// what are the dependencies for the bean? A: @autowired
+// where to search for beans? A: package com.example.SpringIn5StepsProd;
+```
+
+
+
+Java Springboot framework manages beans and wires in the dependencies. 
+
+To make best use of spring, tell it the beans and dependencies.
+
+Bean is an instance of an object with dependencies. We want to wire in dependencies
+
+To tell spring boot what the bean is, let's decorate the BinarySearchImpl and class with the *@Component* annotation:
+
+```
+@Component
+public class BinarySearchImpl {
+    // this body is the same as before
+}
+```
+
+Use *@Component* annotation on QuickSortAlgorithm and BubbleSortAlgorithm
+
+and use @Autowired annotation on the dependencies.
+
+This means that sortAlgorithm is a dependency for BinarySearchImpl
+
+```
+@Component
+public class BinarySearchImpl {
+
+    @Autowired
+    private SortAlgorithm sortAlgorithm;
+```
+
+
+
+For searching for beans, tell springboot where to do the component scan.
+
+Use the annotation @SpringBootApplication
+
+This will cause Spring to scan the package where it is located and sub packages for finding beans.
+
+Automatically spring will scan the package com.example.SpringIn5StepsProd and subpackages for beans.
+
+```
+package com.example.SpringIn5StepsProd;
+
+@SpringBootApplication
+public class SpringIn5StepsProdApplication {
+```
+
+
+
+SortAlgorithm is the dependency of BinarySearchImpl.
+
+
+
+Don't need to do ```BinarySearchImpl binarySearchImp = new BinarySearchImpl(new BubbleSortAlgorithm());```
+
+Spring will do that for us.
+
+Now we can get beans from Application Context
+
+
+
+```
+// Spring manages the dependencies and injects the dependencies when mneeded
+// Managed the lifecycle of beans
+```
+
+```java
+ApplicationContext applicationContext = SpringApplication.run(SpringIn5StepsProdApplication.class, args);
+		BinarySearchImpl binarySearch = applicationContext.getBean(BinarySearchImpl.class);
+		int result =
+				binarySearch.binarySearch(new int[] { 12, 4, 6 }, 3);
+		System.out.println(result);
+```
+
+
+
+To use debugging mode, write in application.properties
+
+```
+logging.level.org.springframework = debug
+```
+
+
+
+### Identifying component classes
+
+Spring will identify component classes
+
+Identified candidate component class: file [C:\Users\mrixo\MasterJavaWebServicesCourse\SpringIn5StepsProd\SpringIn5StepsProd\target\classes\com\example\SpringIn5StepsProd\BinarySearchImpl.class]
+
+Identified candidate component class: file [C:\Users\mrixo\MasterJavaWebServicesCourse\SpringIn5StepsProd\SpringIn5StepsProd\target\classes\com\example\SpringIn5StepsProd\BubbleSortAlgorithm.class]
+
+Then it will start creating beans and trying to identify dependencies
+
+```
+Creating instance of bean 'binarySearchImpl'
+
+Creating instance of bean 'bubbleSortAlgorithm'
+
+Finished creating instance of bean 'bubbleSortAlgorithm'
+
+Autowiring by type from bean name 'binarySearchImpl' via constructor to bean named 'bubbleSortAlgorithm'
+
+Finished creating instance of bean 'binarySearchImpl'
+```
+
+
+
+If we put @Component on QuickSort algorithm as well as BubbleSort Algorithm, then Spring tells us that BinarySearchImp requires a single Bean but actually 2 were found. 
+
+To get around this, we can specify the primary component using @Primary
+
+
+
+If no other component is specified
+
+```
+Parameter 0 of constructor in com.example.SpringIn5StepsProd.BinarySearchImpl required a bean of type 'com.example.SpringIn5StepsProd.SortAlgorithm' that could not be found.
+```
+
+
+
