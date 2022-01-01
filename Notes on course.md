@@ -455,4 +455,305 @@ public class BooksController {
 
 
 
-@SpringBootApplication indicates the Spring context file
+@SpringBootApplication indicates the Spring context file and is used for the location to start the component scan for beans.
+
+The @RestController means that it will be registered as a bean and managed by the Spring Framework.
+
+```
+ApplicationContext applicationContext = SpringApplication.run(SpringIn5StepsProdApplication.class, args);
+```
+
+runs a spring context and returns an application context
+
+
+
+```
+
+```
+
+
+
+## Spring Framework
+
+Spring framework takes control of all the beans and their dependencies
+
+Most important feature of Spring Framework is Dependency Injection. At the core of all Spring Modules is Dependency Injection or IOC Inversion of Control.
+
+Define your beans, dependencies and how to find them
+
+https://www.springboottutorial.com/spring-boot-vs-spring-mvc-vs-spring
+
+- Using `@Component`, we tell Spring Framework - Hey there, this is a bean that you need to manage.
+- Using `@Autowired`, we tell Spring Framework - Hey find the correct match for this specific type and autowire it in.
+
+
+
+The SpringBoot starter web is the preferred starter for Springboot to develop web applications.
+
+Actuators bring in monitoring of application
+
+
+
+Expose all end points
+
+```
+#logging.level.org.springframework = DEBUG
+management.endpoints.web.exposure.include=*
+```
+
+Use springboot developer tools to reload the project whenever there is a change.
+
+Will only load application beans again.
+
+```
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+```
+
+
+
+
+
+## SOAP web services
+
+Before developing your web service, you define the format of the request and the response.
+
+We will define XSD - XML Service Definitions
+
+Our SOAP webservice provider should accept a SOAP XML request and provide an output in terms of a SOAP XML response.
+
+Need to define structure of request and response using XML schema definition.
+
+ XML binding involves converting XML to object and vice-versa
+
+JAXB is used for XML binding
+
+JAXB takes the XSD and generates Java objects.
+
+Endpoints process requests and have all the business logic related to the request.
+
+Will use Chrome plugin called Wizdler 
+
+
+
+## Defining XML Structure for request and response
+
+Need to define the name space so that the GetCourseDetailsRequest tag is unique
+
+```java
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+	<Header>
+		<wsse:Security
+			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			mustUnderstand="1">
+			<wsse:UsernameToken>
+				<wsse:Username>user</wsse:Username>
+				<wsse:Password>password</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+	</Header>
+	<Body>
+		<GetCourseDetailsRequest xmlns="http://in28minutes.com/courses">
+			<id>1</id>
+		</GetCourseDetailsRequest>
+	</Body>
+</Envelope>
+```
+
+This helps tell our client how we want the request and how they can expect their response back.
+
+
+
+https://github.com/in28minutes/spring-web-services/blob/master/soap-web-services/backup02-define-xsd-for-first-request-and-response.md
+
+
+
+When an element can contain other elements, it is called a complex type
+
+
+
+https://github.com/in28minutes/spring-web-services/blob/master/soap-web-services/backup02-define-xsd-for-first-request-and-response.md
+
+
+
+Use JAXB to map Java objects to XML which is defined in the XSD. 
+
+It will take the XSD and map it to Java objects
+
+
+
+https://github.com/in28minutes/spring-web-services/blob/master/soap-web-services/backup04-define-jaxb-plugin-and-a-endpoint.md
+
+
+
+JAXB takes care of converting java objects into a XML that is sent to the client.
+
+
+
+## Endpoints
+
+Endpoints receive a request and send back a response
+
+
+
+Process a request with the namespace = "http://in28minutes.com/courses" and the name "GetCourseDetailsRequest".
+
+The method must take the XML and map it to the Java class.
+
+```
+@Endpoint
+public class CourseDetailsEndpoint {
+
+	// method
+	// input - GetCourseDetailsRequest
+	// output - GetCourseDetailsResponse
+
+	// http://in28minutes.com/courses
+	// GetCourseDetailsRequest
+	@PayloadRoot(namespace = "http://in28minutes.com/courses", localPart = "GetCourseDetailsRequest")
+	@ResponsePayload
+	public GetCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetCourseDetailsRequest request) {
+		GetCourseDetailsResponse response = new GetCourseDetailsResponse();
+		
+		CourseDetails courseDetails = new CourseDetails();
+		courseDetails.setId(request.getId());
+		courseDetails.setName("Microservices Course");
+		courseDetails.setDescription("That would be a wonderful course!");
+		
+		response.setCourseDetails(courseDetails);
+		
+		return response;
+	}
+
+}
+```
+
+
+
+@ResponsePayload is written because it needs to be converted back into XML
+
+```
+@Configuration
+```
+
+imports the Spring configuration
+
+Any request that comes to the MVC will be first handled by the Dispatcher Servlet.
+
+Message dispatcher servlet handles all the SOAP requests and identifies the end points
+
+```
+"/ws/*"
+```
+
+is the URL which we we will expose all of our endpoints at
+
+```
+@Bean
+public ServletRegistrationBean messageDispatcherServlet(ApplicationContext context) {
+    MessageDispatcherServlet messageDispatcherServlet = new MessageDispatcherServlet();
+    messageDispatcherServlet.setApplicationContext(context);
+    messageDispatcherServlet.setTransformWsdlLocations(true);
+    return new ServletRegistrationBean(messageDispatcherServlet, "/ws/*");
+}
+
+// /ws/courses.wsdl
+// course-details.xsd
+@Bean(name = "courses")
+public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema coursesSchema) {
+    DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
+    definition.setPortTypeName("CoursePort");
+    definition.setTargetNamespace("http://in28minutes.com/courses");
+    definition.setLocationUri("/ws");
+    definition.setSchema(coursesSchema);
+    return definition;
+}
+
+@Bean
+public XsdSchema coursesSchema() {
+    return new SimpleXsdSchema(new ClassPathResource("course-details.xsd"));
+}
+```
+
+
+
+```
+ServletRegistrationBean helps to map message dispatcher serverlet to a URI
+```
+
+message dispatcher servelet will receive all the requests
+
+
+
+Spring web services actually creates the WSDL for us.
+
+We used an @Bean for course schema so it will be autowired in for us.
+
+
+
+http://localhost:8080/ws/courses.wsdl
+
+
+
+Access the course details through the coursedetails service
+
+
+
+Creating a new service is easy. You just need to add a few things in the XSD and a new endpoint
+
+
+
+Type http://localhost:8080/ws/courses.wsdl to get the wsdl definition of our services.
+
+Client can use the wsdl to know what to sent to your web service
+
+
+
+In the WSDL we specify the different XSD structures.
+
+Next we define the messages, they are the request and the response
+
+
+
+The only thing that can be used as a request or response have message in it
+
+```
+<wsdl:message name="GetAllCourseDetailsRequest">
+<wsdl:part element="tns:GetAllCourseDetailsRequest" name="GetAllCourseDetailsRequest"> </wsdl:part>
+</wsdl:message>
+```
+
+You map messages to operations using port type. Port type defines operations and what the input and output will be.
+
+If you want to use a particular operation of the webservice, then this is the input and this is the output.
+
+The service call happens over the transport of HTTP. That's how we expose our bindings
+
+Document signifies its a complete XML request and response. Its most frequently used SOAP binding
+
+Alternative is RPC
+
+
+
+At a high level, types defines all the operations that are available
+
+Bindings map operations to how you are exposing them
+
+Service maps to end points
+
+
+
+Springboot provides a way to build back end applications in java
+
+
+
+spring boot start test is used for unit tests and integration tests
+
+
+
+## Spring Boot Tutorial for Beginners (Java Framework)
+
+https://www.youtube.com/watch?v=vtPkZShrvXQ
+
