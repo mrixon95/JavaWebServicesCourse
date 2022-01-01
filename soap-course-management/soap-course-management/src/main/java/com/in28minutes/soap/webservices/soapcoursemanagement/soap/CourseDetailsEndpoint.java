@@ -2,7 +2,9 @@ package com.in28minutes.soap.webservices.soapcoursemanagement.soap;
 
 import com.in28minutes.courses.*;
 import com.in28minutes.soap.webservices.soapcoursemanagement.soap.bean.Course;
+import com.in28minutes.soap.webservices.soapcoursemanagement.soap.exception.CourseNotFoundException;
 import com.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService;
+import com.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -10,6 +12,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import java.util.List;
+
+import static com.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService.Status.FAILURE;
 
 @Endpoint
 public class CourseDetailsEndpoint {
@@ -25,9 +29,12 @@ public class CourseDetailsEndpoint {
     // GetCourseDetailsRequest
     @PayloadRoot(namespace = "http://in28minutes.com/courses", localPart = "GetCourseDetailsRequest")
     @ResponsePayload
-    public GetCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetCourseDetailsRequest request) {
+    public GetCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetCourseDetailsRequest request) throws CourseNotFoundException {
 
         Course course = service.findById(request.getId());
+
+        if (course == null)
+            throw new CourseNotFoundException("Invalid Course Id " + request.getId());
 
         return mapCourseDetails(course);
     }
@@ -73,12 +80,18 @@ public class CourseDetailsEndpoint {
     public DeleteCourseDetailsResponse deleteCourseDetailsRequest(
             @RequestPayload DeleteCourseDetailsRequest request) {
 
-        int status = service.deleteById(request.getId());
+        Status status = service.deleteById(request.getId());
 
         DeleteCourseDetailsResponse response = new DeleteCourseDetailsResponse();
-        response.setStatus(status);
+        response.setStatus(mapStatus(status));
 
         return response;
+    }
+
+    private com.in28minutes.courses.Status mapStatus(CourseDetailsService.Status status) {
+        if (status == FAILURE)
+            return com.in28minutes.courses.Status.FAILURE;
+        return com.in28minutes.courses.Status.SUCCESS;
     }
 
 

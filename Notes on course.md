@@ -766,3 +766,23 @@ Tell Springboot to Instantiate beans using @Repository or @Component. Tell Sprin
 Use @Qualifier to differentiate between different dependency injections
 
 GO TO CONFIGURATION TO CHECK JAVA RUNE TIME
+
+You start up a jar
+
+you run java -jar .\de.-SNAPSHOT.jar to run the jar.
+
+
+
+```
+//XwsSecurityInterceptor
+```
+
+intercepts all requests coming into our web service and checks their security.
+
+Need to add this interceptor to the list of interceptors
+
+callback says what the security interceptor do when it intercepts a request. It should validate username and password
+
+
+
+Whenever the XwsSecurityIntercepter intercepts a request, it calls the SimplePasswordValidationCallbackHandler and checks that the user and password are correct.
