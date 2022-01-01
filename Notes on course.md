@@ -757,3 +757,12 @@ spring boot start test is used for unit tests and integration tests
 
 https://www.youtube.com/watch?v=vtPkZShrvXQ
 
+
+
+Dependency instance
+
+Tell Springboot to Instantiate beans using @Repository or @Component. Tell Springboot about services using @Service and dependency injection using @Autowired
+
+Use @Qualifier to differentiate between different dependency injections
+
+GO TO CONFIGURATION TO CHECK JAVA RUNE TIME
