@@ -773,11 +773,15 @@ you run java -jar .\de.-SNAPSHOT.jar to run the jar.
 
 
 
+WS Security provides security around your SOAP based web services. It is transport independent security.
+
+Provides security using authentication, digital certificates and authentication
+
 ```
 //XwsSecurityInterceptor
 ```
 
-intercepts all requests coming into our web service and checks their security.
+intercepts all SOAP requests coming into our web service and checks their security. Username and Password.
 
 Need to add this interceptor to the list of interceptors
 
@@ -786,3 +790,66 @@ callback says what the security interceptor do when it intercepts a request. It 
 
 
 Whenever the XwsSecurityIntercepter intercepts a request, it calls the SimplePasswordValidationCallbackHandler and checks that the user and password are correct.
+
+
+
+## Section 6
+
+RESTful web services with Spring
+
+For **debugging**
+
+```
+logging.level.org.springframework = debug
+```
+
+We added in a starter on Springboot starter web. It has a dependency on spring web mvc framework
+
+We have the dispatcher serverlet on the class path.
+
+
+
+DispatcherServletAutoConfiguration matches because it found dispatcher servlet on the class path.
+
+Springboot starter web has a dependency on springboot web mvc framework, therefore we get the dispatcher servlet class in our class path
+
+ErrorMVCAutoConfiguration is configuring an error page
+
+Springboot autoconfiguration tries to auto configure classes on the class path
+
+JacksonAutoConfiguration was responsible for converting the beans to json and json to beans
+
+## Dispatcher Servlet
+
+Mapping servlet: 'dispatcherServlet' handles all the requests.
+
+It is the front controller for the spring web mvc framework
+
+/ is the root of the web application
+
+Dispatcher servlet maps the requests to the methods eg. mapped "{[/hello-world], method=[GET]}" on to HellowWorldController/hello-world
+
+To show date and time
+
+```
+spring.jackson.serialization.write-dates-as-timestamps=false
+```
+
+What is ever in the request body will be mapped to the User
+
+
+
+Our beans need getters and setters and a default no argument constructor
+
+Best practice is to return the specific status code eg. 201
+
+
+
+## Create standard exception structure
+
+In an organisation, you would want a standard structure for error messages.
+
+Use the ResponseEntityExceptionHandler to provide default exception handling.
+
+Controller Advice allows methods to be shared across multiple classes
+
